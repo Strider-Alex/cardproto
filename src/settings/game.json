@@ -1,0 +1,40 @@
+{
+    "name": "ImperialStorm",
+    "fields":[
+        {
+            "name": "deck",
+            "owner": "game",
+            "access": "none"
+        },
+        {
+            "name": "hand",
+            "owner": "player",
+            "access": "private"
+        },
+        {
+            "name": "scene1",
+            "owner": "game",
+            "access": "public"
+        },
+        {
+            "name": "scene2",
+            "owner": "game",
+            "access": "public"
+        },
+        {
+            "name": "scene3",
+            "owner": "game",
+            "access": "public"
+        },
+        {
+            "name": "scene4",
+            "owner": "game",
+            "access": "public"
+        },
+        {
+            "name": "graveyard",
+            "owner": "player",
+            "access": "public"
+        }
+    ]
+}

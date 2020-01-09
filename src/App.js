@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/*
+ * Copyright 2017 The boardgame.io Authors.
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { Client } from "boardgame.io/react";
+import TicTacToe from "./game";
+import Board from "./board";
+
+const App = Client({
+  game: TicTacToe,
+  board: Board,
+  ai: {
+    enumerate: G => {
+      let moves = [];
+      for (let i = 0; i < 9; i++) {
+        if (G.cells[i] === null) {
+          moves.push({ move: "clickCell", args: [i] });
+        }
+      }
+      return moves;
+    }
+  }
+});
 
 export default App;
