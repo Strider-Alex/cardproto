@@ -22,7 +22,7 @@ class Board extends React.Component {
     isMultiplayer: PropTypes.bool,
   };
 
-  onClick = id => {
+  /*onClick = id => {
     if (this.isActive(id)) {
       this.props.moves.clickCell(id);
     }
@@ -32,7 +32,7 @@ class Board extends React.Component {
     if (!this.props.isActive) return false;
     if (this.props.G.cells[id] !== null) return false;
     return true;
-  }
+  }*/
 
   endTurn(e) {
       console.log('EndTurn');
@@ -53,7 +53,7 @@ class Board extends React.Component {
     return (
       <div>
         <button onClick={(e)=>this.endTurn(e)}>End turn</button>
-        <BoardFields fields={gameRule.fields} />
+        <BoardFields moves={this.props.moves} G={this.props.G}/>
         {winner}
       </div>
     );

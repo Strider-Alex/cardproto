@@ -6,6 +6,7 @@
  * https://opensource.org/licenses/MIT.
  */
 import gameRule from './settings/game.json';
+import cardInfo from './settings/card.json';
 
 function IsVictory(cells) {
     return false;
@@ -14,15 +15,34 @@ function IsVictory(cells) {
 const Game = {
     name: gameRule.name,
 
-    setup: () => ({
-        cells: Array(9).fill(null)
-    }),
+    setup: () => {
+        let G = {
+            fields: {}
+        };
+        const fields = gameRule.fields;
+        for (let field in fields)
+        {
+            G.fields[field] = fields[field];
+            G.fields[field].items = [];
+        }
+        const setup = gameRule.setup;
+        let counter = 0;
+        for (let field in setup) {
+            for(let card in setup[field].items) {
+                for (let i = 0; i<setup[field].items[card]; i++) {
+                    G.fields[field].items.push({
+                        id: `card-${counter++}`,
+                        card: card
+                    });
+                }
+            }
+        }
+        return G;
+    },
 
     moves: {
-        clickCell(G, ctx, id) {
-            if (G.cells[id] === null) {
-                G.cells[id] = ctx.currentPlayer;
-            }
+        updateField(G, ctx, field, items) {
+            G.fields[field] = items;
         }
     },
 
@@ -31,9 +51,6 @@ const Game = {
     endIf: (G, ctx) => {
         if (IsVictory(G.cells)) {
             return { winner: ctx.currentPlayer };
-        }
-        if (G.cells.filter(c => c === null).length === 0) {
-            return { draw: true };
         }
     }
 };

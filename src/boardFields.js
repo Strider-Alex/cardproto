@@ -3,13 +3,6 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
 import update from 'immutability-helper';
 
-// fake data generator
-const getItems = (count, offset = 0) =>
-    Array.from({ length: count }, (v, k) => k).map(k => ({
-        id: `item-${k + offset}`,
-        content: `item ${k + offset}`
-    }));
-
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -63,9 +56,8 @@ const getDroppableId = (index, name) => name;
 
 const parseFields = fields => {
     let result = {};
-    fields.forEach((item, index) => {
-        result[getDroppableId(index, item.name)] = item;
-        result[getDroppableId(index, item.name)].items = getItems(5, 5 * index);
+    Object.keys(fields).forEach((key, index) => {
+        result[getDroppableId(index, key)] = fields[key];
     })
     console.log(result);
     return result;
@@ -73,11 +65,12 @@ const parseFields = fields => {
 
 class BoardFields extends Component {
     static propTypes = {
-        fields: PropTypes.any.isRequired,
+        moves: PropTypes.any.isRequired,
+        G: PropTypes.any.isRequired,
     };
 
     state = {
-        fields: parseFields(this.props.fields)
+        fields: parseFields(this.props.G.fields)
     };
 
     getList = id => this.state.fields[id].items;
@@ -124,6 +117,7 @@ class BoardFields extends Component {
                 destination.index
             );
             this.setState(this.getUpdatedState(source.droppableId, items));
+            this.props.moves.updateField(source.droppableId, items)
         } else {
             const result = move(
                 this.getList(source.droppableId),
@@ -133,6 +127,8 @@ class BoardFields extends Component {
             );
             const state = this.getUpdatedState(source.droppableId, result[source.droppableId]);
             this.setState(this.getUpdatedState(destination.droppableId, result[destination.droppableId], state));
+            this.props.moves.updateField(source.droppableId, result[source.droppableId])
+            this.props.moves.updateField(destination.droppableId, result[destination.droppableId])
         }
     };
 
@@ -143,7 +139,7 @@ class BoardFields extends Component {
             <DragDropContext onDragEnd={this.onDragEnd}>
                 {Object.keys(this.state.fields).map((fieldKey, fieldIndex) => (
                     <div key={fieldIndex}>
-                        <p>{this.state.fields[fieldKey].name}</p>
+                        <p>{fieldKey}</p>
                         <button onClick={(e)=>this.shuffleItem(e, fieldKey)}>Shuffle!</button>
                         <Droppable droppableId={getDroppableId(fieldIndex, fieldKey)}>
                             {(provided, snapshot) => (
@@ -164,7 +160,7 @@ class BoardFields extends Component {
                                                         snapshot.isDragging,
                                                         provided.draggableProps.style
                                                     )}>
-                                                    {(this.state.fields[fieldKey].access == 'none') ? '???' : item.content}
+                                                    {(this.state.fields[fieldKey].access == 'none') ? '???' : item.card}
                                                 </div>
                                             )}
                                         </Draggable>
