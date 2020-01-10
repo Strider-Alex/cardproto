@@ -23,6 +23,7 @@ const reorder = (list, startIndex, endIndex) => {
  * Moves an item from one list to another list.
  */
 const move = (source, destination, droppableSource, droppableDestination) => {
+    debugger;
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
@@ -57,13 +58,14 @@ const getListStyle = isDraggingOver => ({
     width: 250
 });
 
-const getDroppableId = index => `droppable-${index}`;
+// const getDroppableId = (index, name) => `droppable-${index}`;
+const getDroppableId = (index, name) => name;
 
 const parseFields = fields => {
     let result = {};
     fields.forEach((item, index) => {
-        result[getDroppableId(index)] = item;
-        result[getDroppableId(index)].items = getItems(5, 5 * index);
+        result[getDroppableId(index, item.name)] = item;
+        result[getDroppableId(index, item.name)].items = getItems(5, 5 * index);
     })
     console.log(result);
     return result;
@@ -80,6 +82,33 @@ class BoardFields extends Component {
 
     getList = id => this.state.fields[id].items;
 
+    getUpdatedState = (fieldKey, items, baseState) => {
+        if (!baseState) {
+            baseState = this.state;
+        }
+        return update(baseState, {
+            fields: {
+                [fieldKey]: {
+                    items: { $set: items }
+                }
+            }
+        });
+    }
+
+    shuffleItem = (e, fieldKey) => {
+        let items = [...this.state.fields[fieldKey].items];
+        // start to shuffle
+        let currentIndex = items.length, temporaryValue, randomIndex;
+        while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            temporaryValue = items[currentIndex];
+            items[currentIndex] = items[randomIndex];
+            items[randomIndex] = temporaryValue;
+        }
+        this.setState(this.getUpdatedState(fieldKey, items));
+    }
+
     onDragEnd = result => {
         const { source, destination } = result;
 
@@ -94,14 +123,7 @@ class BoardFields extends Component {
                 source.index,
                 destination.index
             );
-            let state = update(this.state, {
-                fields: {
-                    [source.droppableId]: {
-                        items: { $set: items }
-                    }
-                }
-            });
-            this.setState(state);
+            this.setState(this.getUpdatedState(source.droppableId, items));
         } else {
             const result = move(
                 this.getList(source.droppableId),
@@ -109,17 +131,8 @@ class BoardFields extends Component {
                 source,
                 destination
             );
-            let state = update(this.state, {
-                fields: {
-                    [source.droppableId]: {
-                        items: { $set: result[source.droppableId] }
-                    },
-                    [destination.droppableId]: {
-                        items: { $set: result[destination.droppableId] }
-                    }
-                }
-            });
-            this.setState(state);
+            const state = this.getUpdatedState(source.droppableId, result[source.droppableId]);
+            this.setState(this.getUpdatedState(destination.droppableId, result[destination.droppableId], state));
         }
     };
 
@@ -131,7 +144,8 @@ class BoardFields extends Component {
                 {Object.keys(this.state.fields).map((fieldKey, fieldIndex) => (
                     <div key={fieldIndex}>
                         <p>{this.state.fields[fieldKey].name}</p>
-                        <Droppable droppableId={getDroppableId(fieldIndex)}>
+                        <button onClick={(e)=>this.shuffleItem(e, fieldKey)}>Shuffle!</button>
+                        <Droppable droppableId={getDroppableId(fieldIndex, fieldKey)}>
                             {(provided, snapshot) => (
                                 <div
                                     ref={provided.innerRef}
@@ -150,7 +164,7 @@ class BoardFields extends Component {
                                                         snapshot.isDragging,
                                                         provided.draggableProps.style
                                                     )}>
-                                                    {(this.state.fields[fieldKey].access=='none')?'???':item.content}
+                                                    {(this.state.fields[fieldKey].access == 'none') ? '???' : item.content}
                                                 </div>
                                             )}
                                         </Draggable>

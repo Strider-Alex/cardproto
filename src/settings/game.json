@@ -36,5 +36,11 @@
             "owner": "player",
             "access": "public"
         }
+    ],
+    "setup": [
+        {
+            "fields": "deck",
+            "shuffle": true
+        }
     ]
 }
