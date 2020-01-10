@@ -48,7 +48,9 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? 'lightblue' : 'lightgrey',
     padding: grid,
-    width: 250
+    width: 250,
+    float: "left",
+    margin: 20
 });
 
 // const getDroppableId = (index, name) => `droppable-${index}`;
@@ -139,13 +141,13 @@ class BoardFields extends Component {
             <DragDropContext onDragEnd={this.onDragEnd}>
                 {Object.keys(this.state.fields).map((fieldKey, fieldIndex) => (
                     <div key={fieldIndex}>
-                        <p>{fieldKey}</p>
-                        <button onClick={(e)=>this.shuffleItem(e, fieldKey)}>Shuffle!</button>
                         <Droppable droppableId={getDroppableId(fieldIndex, fieldKey)}>
                             {(provided, snapshot) => (
                                 <div
                                     ref={provided.innerRef}
                                     style={getListStyle(snapshot.isDraggingOver)}>
+                                    <p>{fieldKey}</p>
+                                    <button onClick={(e)=>this.shuffleItem(e, fieldKey)}>Shuffle!</button>
                                     {this.state.fields[fieldKey].items.map((item, index) => (
                                         <Draggable
                                             key={item.id}
