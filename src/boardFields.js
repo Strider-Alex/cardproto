@@ -16,7 +16,6 @@ const reorder = (list, startIndex, endIndex) => {
  * Moves an item from one list to another list.
  */
 const move = (source, destination, droppableSource, droppableDestination) => {
-    debugger;
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
@@ -69,6 +68,7 @@ class BoardFields extends Component {
     static propTypes = {
         moves: PropTypes.any.isRequired,
         G: PropTypes.any.isRequired,
+        playerID: PropTypes.string.isRequired,
     };
 
     state = {
@@ -102,6 +102,12 @@ class BoardFields extends Component {
             items[randomIndex] = temporaryValue;
         }
         this.setState(this.getUpdatedState(fieldKey, items));
+    }
+
+    accessable = (fieldKey) => {
+        const field = this.state.fields[fieldKey];
+        return !(field.access === 'none' ||
+            (field.owner === 'player' && field.access === 'private' && !fieldKey.includes(this.props.playerID)));
     }
 
     onDragEnd = result => {
@@ -162,7 +168,7 @@ class BoardFields extends Component {
                                                         snapshot.isDragging,
                                                         provided.draggableProps.style
                                                     )}>
-                                                    {(this.state.fields[fieldKey].access == 'none') ? '???' : item.card}
+                                                    {(this.accessable(fieldKey)) ? item.card : '???'}
                                                 </div>
                                             )}
                                         </Draggable>

@@ -6,24 +6,43 @@
  * https://opensource.org/licenses/MIT.
  */
 
+import React from 'react'
 import { Client } from "boardgame.io/react";
-import TicTacToe from "./game";
+import { SocketIO } from 'boardgame.io/multiplayer'
+import gameRule from "./settings/game.json"
+import Game from "./game";
 import Board from "./board";
 
-const App = Client({
-  game: TicTacToe,
+const GameClient = Client({
+  game: Game,
   board: Board,
-  ai: {
-    enumerate: G => {
-      let moves = [];
-      for (let i = 0; i < 9; i++) {
-        if (G.cells[i] === null) {
-          moves.push({ move: "clickCell", args: [i] });
-        }
-      }
-      return moves;
-    }
-  }
+  debug: false,
+  multiplayer: SocketIO({ server: 'localhost:8000' }),
 });
+
+class App extends React.Component {
+  state = { playerID: null };
+
+  render() {
+    if (this.state.playerID === null) {
+      return (
+        <div>
+          <p>Play as</p>
+          {
+            [...Array(gameRule.player)].map((e, idx) => 
+            <button key={idx} onClick={() => this.setState({ playerID: String(idx) })}>
+              {`Player ${idx}`}
+            </button>)
+          }
+        </div>
+      );
+    }
+    return (
+      <div>
+        <GameClient playerID={this.state.playerID} />
+      </div>
+    );
+  }
+}
 
 export default App;

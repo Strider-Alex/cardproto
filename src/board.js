@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './board.css';
 import BoardFields from "./boardFields";
-import gameRule from './settings/game.json';
 
 class Board extends React.Component {
   static propTypes = {
@@ -35,8 +34,12 @@ class Board extends React.Component {
   }*/
 
   endTurn(e) {
-      console.log('EndTurn');
-      this.props.events.endTurn();
+    this.props.events.endTurn();
+  }
+
+  reset(e) {
+    //this.props.moves.resetGame();
+    this.props.reset();
   }
 
   render() {
@@ -52,8 +55,9 @@ class Board extends React.Component {
 
     return (
       <div>
-        <button onClick={(e)=>this.endTurn(e)}>End turn</button>
-        <BoardFields moves={this.props.moves} G={this.props.G}/>
+        <button onClick={(e)=>this.reset(e)}>Reset</button>
+        <button onClick={(e)=>this.endTurn(e)}>End Turn</button>
+        <BoardFields moves={this.props.moves} G={this.props.G} playerID={this.props.playerID}/>
         {winner}
       </div>
     );

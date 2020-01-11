@@ -1,5 +1,6 @@
 {
     "name": "ImperialStorm",
+    "player": 2,
     "fields": {
         "deck": {
             "owner": "game",

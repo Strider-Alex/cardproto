@@ -12,37 +12,71 @@ function IsVictory(cells) {
     return false;
 }
 
-const Game = {
-    name: gameRule.name,
+function numOfInstances(field) {
+    if (field.owner === 'player') {
+        return gameRule.player;
+    }
+    return 1;
+}
 
-    setup: () => {
-        let G = {
-            fields: {}
-        };
-        const fields = gameRule.fields;
-        for (let field in fields)
-        {
-            G.fields[field] = fields[field];
-            G.fields[field].items = [];
-        }
-        const setup = gameRule.setup;
-        let counter = 0;
-        for (let field in setup) {
-            for(let card in setup[field].items) {
-                for (let i = 0; i<setup[field].items[card]; i++) {
-                    G.fields[field].items.push({
-                        id: `card-${counter++}`,
-                        card: card
-                    });
+function newKey(key, idx, n) {
+    if (n > 1) {
+        return `${key}-${idx}`;
+    }
+    return key;
+}
+
+function reset() {
+    let G = {
+        fields: {}
+    };
+    const fields = gameRule.fields;
+    const setup = gameRule.setup;
+    let counter = 0;
+    for (let fieldKey in fields)
+    {
+        const n = numOfInstances(fields[fieldKey]);
+        for (let idx=0; idx<n; idx ++) {
+            const k = newKey(fieldKey, idx, n);
+            G.fields[k] = fields[fieldKey];
+            G.fields[k].items = [];
+            // setup for each instance
+            if (fieldKey in setup) {
+                for(let card in setup[fieldKey].items) {
+                    for (let i = 0; i<setup[fieldKey].items[card]; i++) {
+                        G.fields[k].items.push({
+                            id: `card-${counter++}`,
+                            card: card
+                        });
+                    }
                 }
             }
         }
-        return G;
-    },
+    }
+    /*for (let fieldKey in setup) {
+        for(let card in setup[fieldKey].items) {
+            for (let i = 0; i<setup[fieldKey].items[card]; i++) {
+                G.fields[fieldKey].items.push({
+                    id: `card-${counter++}`,
+                    card: card
+                });
+            }
+        }
+    }*/
+    return G;
+}
+
+const Game = {
+    name: gameRule.name,
+
+    setup: reset,
 
     moves: {
         updateField(G, ctx, field, items) {
-            G.fields[field] = items;
+            G.fields[field].items = items;
+        },
+        resetGame(G, ctx) {
+            Object.assign(G, reset());
         }
     },
 
