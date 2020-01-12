@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
-import update from 'immutability-helper';
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -55,15 +54,6 @@ const getListStyle = isDraggingOver => ({
 // const getDroppableId = (index, name) => `droppable-${index}`;
 const getDroppableId = (index, name) => name;
 
-const parseFields = fields => {
-    let result = {};
-    Object.keys(fields).forEach((key, index) => {
-        result[getDroppableId(index, key)] = fields[key];
-    })
-    console.log(result);
-    return result;
-};
-
 class BoardFields extends Component {
     static propTypes = {
         moves: PropTypes.any.isRequired,
@@ -71,27 +61,10 @@ class BoardFields extends Component {
         playerID: PropTypes.string.isRequired,
     };
 
-    state = {
-        fields: parseFields(this.props.G.fields)
-    };
-
-    getList = id => this.state.fields[id].items;
-
-    getUpdatedState = (fieldKey, items, baseState) => {
-        if (!baseState) {
-            baseState = this.state;
-        }
-        return update(baseState, {
-            fields: {
-                [fieldKey]: {
-                    items: { $set: items }
-                }
-            }
-        });
-    }
+    getList = id => this.props.G.fields[id].items;
 
     shuffleItem = (e, fieldKey) => {
-        let items = [...this.state.fields[fieldKey].items];
+        let items = [...this.props.G.fields[fieldKey].items];
         // start to shuffle
         let currentIndex = items.length, temporaryValue, randomIndex;
         while (0 !== currentIndex) {
@@ -101,11 +74,10 @@ class BoardFields extends Component {
             items[currentIndex] = items[randomIndex];
             items[randomIndex] = temporaryValue;
         }
-        this.setState(this.getUpdatedState(fieldKey, items));
     }
 
     accessable = (fieldKey) => {
-        const field = this.state.fields[fieldKey];
+        const field = this.props.G.fields[fieldKey];
         return !(field.access === 'none' ||
             (field.owner === 'player' && field.access === 'private' && !fieldKey.includes(this.props.playerID)));
     }
@@ -124,7 +96,6 @@ class BoardFields extends Component {
                 source.index,
                 destination.index
             );
-            this.setState(this.getUpdatedState(source.droppableId, items));
             this.props.moves.updateField(source.droppableId, items)
         } else {
             const result = move(
@@ -133,8 +104,6 @@ class BoardFields extends Component {
                 source,
                 destination
             );
-            const state = this.getUpdatedState(source.droppableId, result[source.droppableId]);
-            this.setState(this.getUpdatedState(destination.droppableId, result[destination.droppableId], state));
             this.props.moves.updateField(source.droppableId, result[source.droppableId])
             this.props.moves.updateField(destination.droppableId, result[destination.droppableId])
         }
@@ -145,7 +114,7 @@ class BoardFields extends Component {
     render() {
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
-                {Object.keys(this.state.fields).map((fieldKey, fieldIndex) => (
+                {Object.keys(this.props.G.fields).map((fieldKey, fieldIndex) => (
                     <div key={fieldIndex}>
                         <Droppable droppableId={getDroppableId(fieldIndex, fieldKey)}>
                             {(provided, snapshot) => (
@@ -154,7 +123,7 @@ class BoardFields extends Component {
                                     style={getListStyle(snapshot.isDraggingOver)}>
                                     <p>{fieldKey}</p>
                                     <button onClick={(e)=>this.shuffleItem(e, fieldKey)}>Shuffle!</button>
-                                    {this.state.fields[fieldKey].items.map((item, index) => (
+                                    {this.props.G.fields[fieldKey].items.map((item, index) => (
                                         <Draggable
                                             key={item.id}
                                             draggableId={item.id}
