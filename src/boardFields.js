@@ -53,6 +53,12 @@ const getListStyle = isDraggingOver => ({
     margin: 20
 });
 
+const getCount = (provided, snapshot) => {
+    console.log("Testing log:")
+    console.log(provided)
+    console.log(snapshot)
+}
+
 // const getDroppableId = (index, name) => `droppable-${index}`;
 const getDroppableId = (index, name) => name;
 
@@ -146,7 +152,7 @@ class BoardFields extends Component {
                                 <div
                                     ref={provided.innerRef}
                                     style={getListStyle(snapshot.isDraggingOver)}>
-                                    <p>{fieldKey}</p>
+                                    <p>{fieldKey} Counter: {this.state.fields[fieldKey].items.length}</p>
                                     <button onClick={(e)=>this.shuffleItem(e, fieldKey)}>Shuffle!</button>
                                     {this.state.fields[fieldKey].items.map((item, index) => (
                                         <Draggable
