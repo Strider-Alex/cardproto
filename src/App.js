@@ -7,17 +7,19 @@
  */
 
 import React from 'react'
-import { Client } from "boardgame.io/react";
+import { Client } from 'boardgame.io/react';
 import { SocketIO } from 'boardgame.io/multiplayer'
-import gameRule from "./settings/game.json"
+import gameRule from './settings/game.json'
+import serverInfo from './settings/server.json'
 import Game from "./game";
 import Board from "./board";
 
 const GameClient = Client({
   game: Game,
   board: Board,
-  debug: false,
-  multiplayer: SocketIO({ server: 'localhost:8000' }),
+  debug: true,
+  //multiplayer: SocketIO({ server: 'localhost:8000' }),
+  multiplayer: SocketIO({ server: `${serverInfo.protocol}://${serverInfo.hostname}:${serverInfo.port}` }),
 });
 
 class App extends React.Component {

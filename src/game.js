@@ -6,7 +6,6 @@
  * https://opensource.org/licenses/MIT.
  */
 import gameRule from './settings/game.json';
-import cardInfo from './settings/card.json';
 
 function IsVictory(cells) {
     return false;

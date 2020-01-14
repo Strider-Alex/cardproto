@@ -35,8 +35,12 @@
         "deck": {
             "shuffle": true,
             "items": {
-                "enunch": 5,
-                "maid": 5
+                "enunch": 3,
+                "maid": 3,
+                "assassin": 3,
+                "farmer-female": 3,
+                "king": 1,
+                "prince": 1
             }
         }
     }

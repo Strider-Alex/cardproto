@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
+import cardInfo from './settings/card.json';
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -61,6 +62,10 @@ class BoardFields extends Component {
         playerID: PropTypes.string.isRequired,
     };
 
+    state = {
+        selected: null
+    };
+
     getList = id => this.props.G.fields[id].items;
 
     shuffleItem = (e, fieldKey) => {
@@ -74,12 +79,23 @@ class BoardFields extends Component {
             items[currentIndex] = items[randomIndex];
             items[randomIndex] = temporaryValue;
         }
-    }
+    };
 
     accessable = (fieldKey) => {
         const field = this.props.G.fields[fieldKey];
         return !(field.access === 'none' ||
             (field.owner === 'player' && field.access === 'private' && !fieldKey.includes(this.props.playerID)));
+    };
+
+    selected = id => id === this.state.selected;
+
+    onDoubleClick = (e, id) => {
+        if (id === this.state.selected) {
+            this.setState({ selected: null });
+        }
+        else {
+            this.setState({ selected: id });
+        }
     }
 
     onDragEnd = result => {
@@ -122,7 +138,7 @@ class BoardFields extends Component {
                                     ref={provided.innerRef}
                                     style={getListStyle(snapshot.isDraggingOver)}>
                                     <p>{fieldKey}</p>
-                                    <button onClick={(e)=>this.shuffleItem(e, fieldKey)}>Shuffle!</button>
+                                    <button onClick={(e) => this.shuffleItem(e, fieldKey)}>Shuffle!</button>
                                     {this.props.G.fields[fieldKey].items.map((item, index) => (
                                         <Draggable
                                             key={item.id}
@@ -137,7 +153,8 @@ class BoardFields extends Component {
                                                         snapshot.isDragging,
                                                         provided.draggableProps.style
                                                     )}>
-                                                    {(this.accessable(fieldKey)) ? item.card : '???'}
+                                                    <p onClick={(e)=>this.onDoubleClick(e, item.id)}>{(this.accessable(fieldKey)) ? item.card : '???'}</p>
+                                                    {(this.accessable(fieldKey) && this.selected(item.id)) ? <span>{cardInfo[item.card].text}</span> : null}
                                                 </div>
                                             )}
                                         </Draggable>
