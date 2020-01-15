@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
 import cardInfo from './settings/card.json';
+import './boardField.css'
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -44,14 +45,13 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     ...draggableStyle
 });
 
-const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : 'lightgrey',
-    padding: grid,
-    width: 250,
-    float: "left",
-    margin: 20
-});
-
+const getListStyle = (isDraggingOver, key) => {
+    console.log(key)
+    let style = {
+        background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    }
+    return style
+}
 // const getDroppableId = (index, name) => `droppable-${index}`;
 const getDroppableId = (index, name) => name;
 
@@ -136,7 +136,8 @@ class BoardFields extends Component {
                             {(provided, snapshot) => (
                                 <div
                                     ref={provided.innerRef}
-                                    style={getListStyle(snapshot.isDraggingOver)}>
+                                    className={fieldKey}
+                                    style={getListStyle(snapshot.isDraggingOver, fieldKey)}>
                                     <p>{fieldKey}</p>
                                     <button onClick={(e) => this.shuffleItem(e, fieldKey)}>Shuffle!</button>
                                     {this.props.G.fields[fieldKey].items.map((item, index) => (
