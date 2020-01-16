@@ -68,17 +68,8 @@ class BoardFields extends Component {
 
     getList = id => this.props.G.fields[id].items;
 
-    shuffleItem = (e, fieldKey) => {
-        let items = [...this.props.G.fields[fieldKey].items];
-        // start to shuffle
-        let currentIndex = items.length, temporaryValue, randomIndex;
-        while (0 !== currentIndex) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-            temporaryValue = items[currentIndex];
-            items[currentIndex] = items[randomIndex];
-            items[randomIndex] = temporaryValue;
-        }
+    shuffleItems = (e, fieldKey) => {
+        this.props.moves.shuffleItems(fieldKey)
     };
 
     accessable = (fieldKey) => {
@@ -138,7 +129,7 @@ class BoardFields extends Component {
                                     ref={provided.innerRef}
                                     style={getListStyle(snapshot.isDraggingOver)}>
                                     <p>{fieldKey}</p>
-                                    <button onClick={(e) => this.shuffleItem(e, fieldKey)}>Shuffle!</button>
+                                    <button onClick={(e) => this.shuffleItems(e, fieldKey)}>Shuffle!</button>
                                     {this.props.G.fields[fieldKey].items.map((item, index) => (
                                         <Draggable
                                             key={item.id}

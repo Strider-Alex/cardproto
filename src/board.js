@@ -38,8 +38,7 @@ class Board extends React.Component {
   }
 
   reset(e) {
-    //this.props.moves.resetGame();
-    this.props.reset();
+    this.props.moves.resetGame();
   }
 
   render() {

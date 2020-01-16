@@ -74,6 +74,17 @@ const Game = {
         updateField(G, ctx, field, items) {
             G.fields[field].items = items;
         },
+        shuffleItems(G, ctx, fieldKey) {
+            let items = G.fields[fieldKey].items
+            let currentIndex = items.length, temporaryValue, randomIndex;
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                temporaryValue = items[currentIndex];
+                items[currentIndex] = items[randomIndex];
+                items[randomIndex] = temporaryValue;
+            }
+        },
         resetGame(G, ctx) {
             Object.assign(G, reset());
         }
