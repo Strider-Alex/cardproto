@@ -3,8 +3,9 @@
     "player": 2,
     "fields": {
         "deck": {
-            "owner": "game",
-            "access": "none"
+            "owner": "player",
+            "access": "none",
+            "counter": "0"
         },
         "hand": {
             "owner": "player",
@@ -12,19 +13,23 @@
         },
         "scene1": {
             "owner": "game",
-            "access": "public"
+            "access": "public",
+            "counter": "0"
         },
         "scene2": {
             "owner": "game",
-            "access": "public"
+            "access": "public",
+            "counter": "0"
         },
         "scene3": {
             "owner": "game",
-            "access": "public"
+            "access": "public",
+            "counter": "0"
         },
         "scene4": {
             "owner": "game",
-            "access": "public"
+            "access": "public",
+            "counter": "0"
         },
         "graveyard": {
             "owner": "player",
@@ -32,15 +37,34 @@
         }
     },
     "setup": {
-        "deck": {
+        "deck-0": {
             "shuffle": true,
             "items": {
                 "enunch": 3,
-                "maid": 3,
-                "assassin": 3,
-                "farmer-female": 3,
+                "maid": 2,
+                "assassin": 1,
+                "farmer-female": 1,
+                "general": 2,
+                "baron": 2,
+                "duke": 1,
+                "concubine": 1,
                 "king": 1,
                 "prince": 1
+            }
+        },
+        "deck-1": {
+            "shuffle": true,
+            "items": {
+                "enunch": 3,
+                "maid": 2,
+                "assassin": 1,
+                "farmer-female": 1,
+                "general": 2,
+                "baron": 2,
+                "duke": 1,
+                "concubine": 1,
+                "queen": 1,
+                "dowager": 1
             }
         }
     }

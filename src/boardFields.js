@@ -80,13 +80,17 @@ class BoardFields extends Component {
 
     selected = id => id === this.state.selected;
 
-    onDoubleClick = (e, id) => {
+    onClick = (e, id) => {
         if (id === this.state.selected) {
             this.setState({ selected: null });
         }
         else {
             this.setState({ selected: id });
         }
+    }
+
+    onCounterChange = (e, fieldKey) => {
+        this.props.moves.updateCounter(fieldKey, e.target.value);
     }
 
     onDragEnd = result => {
@@ -129,6 +133,13 @@ class BoardFields extends Component {
                                     ref={provided.innerRef}
                                     style={getListStyle(snapshot.isDraggingOver)}>
                                     <p>{fieldKey}</p>
+                                    {('counter' in this.props.G.fields[fieldKey]) ? 
+                                        <input
+                                        type="text"
+                                        onChange={(e)=>this.onCounterChange(e, fieldKey)}
+                                        value={this.props.G.fields[fieldKey].counter}
+                                       />:
+                                        null}
                                     <button onClick={(e) => this.shuffleItems(e, fieldKey)}>Shuffle!</button>
                                     {this.props.G.fields[fieldKey].items.map((item, index) => (
                                         <Draggable
@@ -144,7 +155,7 @@ class BoardFields extends Component {
                                                         snapshot.isDragging,
                                                         provided.draggableProps.style
                                                     )}>
-                                                    <p onClick={(e)=>this.onDoubleClick(e, item.id)}>{(this.accessable(fieldKey)) ? item.card : '???'}</p>
+                                                    <p onClick={(e)=>this.onClick(e, item.id)}>{(this.accessable(fieldKey)) ? item.card : '???'}</p>
                                                     {(this.accessable(fieldKey) && this.selected(item.id)) ? <span>{cardInfo[item.card].text}</span> : null}
                                                 </div>
                                             )}

@@ -21,18 +21,6 @@ class Board extends React.Component {
     isMultiplayer: PropTypes.bool,
   };
 
-  /*onClick = id => {
-    if (this.isActive(id)) {
-      this.props.moves.clickCell(id);
-    }
-  };
-
-  isActive(id) {
-    if (!this.props.isActive) return false;
-    if (this.props.G.cells[id] !== null) return false;
-    return true;
-  }*/
-
   endTurn(e) {
     this.props.events.endTurn();
   }

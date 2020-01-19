@@ -6,6 +6,7 @@
  * https://opensource.org/licenses/MIT.
  */
 import gameRule from './settings/game.json';
+import { shuffle } from './utils';
 
 function IsVictory(cells) {
     return false;
@@ -35,33 +36,26 @@ function reset() {
     for (let fieldKey in fields)
     {
         const n = numOfInstances(fields[fieldKey]);
-        for (let idx=0; idx<n; idx ++) {
+        for (let idx=0; idx<n; idx++) {
             const k = newKey(fieldKey, idx, n);
-            G.fields[k] = fields[fieldKey];
+            G.fields[k] = {...fields[fieldKey]}; // deep copy is needed here
             G.fields[k].items = [];
             // setup for each instance
-            if (fieldKey in setup) {
-                for(let card in setup[fieldKey].items) {
-                    for (let i = 0; i<setup[fieldKey].items[card]; i++) {
+            if (k in setup) {
+                for(let card in setup[k].items) {
+                    for (let i = 0; i<setup[k].items[card]; i++) {
                         G.fields[k].items.push({
                             id: `card-${counter++}`,
                             card: card
                         });
                     }
                 }
+                if (setup[k].shuffle) {
+                    shuffle(G.fields[k].items);
+                }
             }
         }
     }
-    /*for (let fieldKey in setup) {
-        for(let card in setup[fieldKey].items) {
-            for (let i = 0; i<setup[fieldKey].items[card]; i++) {
-                G.fields[fieldKey].items.push({
-                    id: `card-${counter++}`,
-                    card: card
-                });
-            }
-        }
-    }*/
     return G;
 }
 
@@ -75,22 +69,15 @@ const Game = {
             G.fields[field].items = items;
         },
         shuffleItems(G, ctx, fieldKey) {
-            let items = G.fields[fieldKey].items
-            let currentIndex = items.length, temporaryValue, randomIndex;
-            while (0 !== currentIndex) {
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex -= 1;
-                temporaryValue = items[currentIndex];
-                items[currentIndex] = items[randomIndex];
-                items[randomIndex] = temporaryValue;
-            }
+            shuffle(G.fields[fieldKey].items);
+        },
+        updateCounter(G, ctx, fieldKey, s) {
+            G.fields[fieldKey].counter = s;
         },
         resetGame(G, ctx) {
             Object.assign(G, reset());
         }
     },
-
-    //turn: { moveLimit: 1 },
 
     endIf: (G, ctx) => {
         if (IsVictory(G.cells)) {

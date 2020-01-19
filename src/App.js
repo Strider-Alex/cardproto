@@ -17,8 +17,7 @@ import Board from "./board";
 const GameClient = Client({
   game: Game,
   board: Board,
-  debug: true,
-  //multiplayer: SocketIO({ server: 'localhost:8000' }),
+  debug: false,
   multiplayer: SocketIO({ server: `${serverInfo.protocol}://${serverInfo.hostname}:${serverInfo.port}` }),
 });
 
