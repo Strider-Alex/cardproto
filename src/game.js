@@ -6,6 +6,7 @@
  * https://opensource.org/licenses/MIT.
  */
 import gameRule from './settings/game.json';
+import { ActivePlayers } from 'boardgame.io/core';
 import { shuffle } from './utils';
 
 function IsVictory(cells) {
@@ -77,6 +78,10 @@ const Game = {
         resetGame(G, ctx) {
             Object.assign(G, reset());
         }
+    },
+
+    turn: {
+        activePlayers: ActivePlayers.ALL
     },
 
     endIf: (G, ctx) => {
