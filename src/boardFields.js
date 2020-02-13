@@ -155,7 +155,7 @@ class BoardFields extends Component {
                                                         snapshot.isDragging,
                                                         provided.draggableProps.style
                                                     )}>
-                                                    <p onClick={(e)=>this.onClick(e, item.id)}>{(this.accessable(fieldKey)) ? item.card : '???'}</p>
+                                                    <p onClick={(e)=>this.onClick(e, item.id)}>{(this.accessable(fieldKey)) ? cardInfo[item.card].name : '???'}</p>
                                                     {(this.accessable(fieldKey) && this.selected(item.id)) ? <span>{cardInfo[item.card].text}</span> : null}
                                                 </div>
                                             )}
