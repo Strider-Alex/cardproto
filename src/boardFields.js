@@ -133,6 +133,9 @@ class BoardFields extends Component {
                                     ref={provided.innerRef}
                                     style={getListStyle(snapshot.isDraggingOver)}>
                                     <p>{fieldKey}</p>
+                                    {('text' in this.props.G.fields[fieldKey]) ? 
+                                        this.props.G.fields[fieldKey]['text']:
+                                        null}
                                     {('counter' in this.props.G.fields[fieldKey]) ? 
                                         <input
                                         type="text"
