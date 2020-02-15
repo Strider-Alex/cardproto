@@ -6,7 +6,7 @@
     left: 0px;
     overflow: auto;
     float: left;
-    margin: 20px
+    margin: 10px
 }
 .hand-1{
      position: absolute;
@@ -16,22 +16,30 @@
      left: 290px;
      overflow: auto;
      float: left;
-     margin: 20px
+     margin: 10px
  }
 
-.deck, .scene1, .scene2, .scene3 {
+.deck {
+    width: 250px;
+    height: 250px;
+    overflow: auto;
+    float: left;
+    margin: 10px
+}
+
+.scene1, .scene2, .scene3 {
     width: 250px;
     height: 400px;
     overflow: auto;
     float: left;
-    margin: 20px
+    margin: 10px
 }
 
 .scene4 {
     width: 250px;
     height: 400px;
     overflow: auto;
-    margin: 20px
+    margin: 10px
 }
 
 .graveyard-0, .graveyard-1 {
@@ -41,5 +49,5 @@
     left: 580px;
     overflow: auto;
     float: left;
-    margin: 20px
+    margin: 10px
 }
