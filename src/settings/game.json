@@ -39,37 +39,5 @@
             "owner": "player",
             "access": "public"
         }
-    },
-    "setup": {
-        "deck-0": {
-            "shuffle": true,
-            "items": {
-                "enunch": 3,
-                "maid": 2,
-                "assassin": 1,
-                "farmer-female": 1,
-                "general": 2,
-                "baron": 2,
-                "duke": 1,
-                "concubine": 1,
-                "king": 1,
-                "prince": 1
-            }
-        },
-        "deck-1": {
-            "shuffle": true,
-            "items": {
-                "enunch": 3,
-                "maid": 2,
-                "assassin": 1,
-                "farmer-female": 1,
-                "general": 2,
-                "baron": 2,
-                "duke": 1,
-                "concubine": 1,
-                "queen": 1,
-                "dowager": 1
-            }
-        }
     }
 }

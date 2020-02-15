@@ -6,6 +6,7 @@
  * https://opensource.org/licenses/MIT.
  */
 import gameRule from './settings/game.json';
+import setup from './settings/setup.json';
 import { ActivePlayers } from 'boardgame.io/core';
 import { shuffle } from './utils';
 
@@ -32,7 +33,6 @@ function reset() {
         fields: {}
     };
     const fields = gameRule.fields;
-    const setup = gameRule.setup;
     let counter = 0;
     for (let fieldKey in fields)
     {

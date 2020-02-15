@@ -13,6 +13,7 @@ import gameRule from './settings/game.json'
 import serverInfo from './settings/server.json'
 import Game from "./game";
 import Board from "./board";
+import DeckBuilder from "./deckBuilder";
 
 const GameClient = Client({
   game: Game,
@@ -35,6 +36,7 @@ class App extends React.Component {
               {`Player ${idx}`}
             </button>)
           }
+          <DeckBuilder/>
         </div>
       );
     }
