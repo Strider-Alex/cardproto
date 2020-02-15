@@ -131,7 +131,7 @@ class BoardFields extends Component {
                             {(provided, snapshot) => (
                                 <div
                                     ref={provided.innerRef}
-                                    className={fieldKey}
+                                    className={this.props.G.fields[fieldKey]["css"]}
                                     style={getListStyle(snapshot.isDraggingOver, fieldKey)}>
                                     <p>{fieldKey}</p>
                                     {('text' in this.props.G.fields[fieldKey]) ? 

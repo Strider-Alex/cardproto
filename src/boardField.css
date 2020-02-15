@@ -1,33 +1,4 @@
-.hand-0{
-    position: absolute;
-    width: 250px;
-    height: 400px;
-    top: 450px;
-    left: 0px;
-    overflow: auto;
-    float: left;
-    margin: 10px
-}
-.hand-1{
-     position: absolute;
-     width: 250px;
-     height: 400px;
-     top: 450px;
-     left: 290px;
-     overflow: auto;
-     float: left;
-     margin: 10px
- }
-
-.deck {
-    width: 250px;
-    height: 250px;
-    overflow: auto;
-    float: left;
-    margin: 10px
-}
-
-.scene1, .scene2, .scene3 {
+.field-1{
     width: 250px;
     height: 400px;
     overflow: auto;
@@ -35,18 +6,33 @@
     margin: 10px
 }
 
-.scene4 {
+.field-2 {
+    width: 250px;
+    height: 400px;
+    overflow: auto;
+    float: left;
+    margin: 10px
+}
+
+.field-3 {
+    width: 250px;
+    height: 400px;
+    overflow: auto;
+    float: left;
+    margin: 10px
+}
+
+.field-3-s {
     width: 250px;
     height: 400px;
     overflow: auto;
     margin: 10px
 }
 
-.graveyard-0, .graveyard-1 {
+.field-4 {
     position: relative;
     width: 250px;
     height: 300px;
-    left: 580px;
     overflow: auto;
     float: left;
     margin: 10px
