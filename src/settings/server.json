@@ -1,5 +1,5 @@
 {
     "protocol": "http",
-    "hostname": "192.168.1.79",
+    "hostname": "localhost",
     "port": 8000
 }
