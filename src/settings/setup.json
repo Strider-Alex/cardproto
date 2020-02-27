@@ -1,32 +1,34 @@
 {
     "deck-0": {
         "shuffle": true,
-        "items": {
-            "enunch": 3,
+        "items": {                                                                                                                                                                                          
+            "enunch": 2,
             "maid": 2,
-            "assassin": 1,
-            "farmer-female": 1,
-            "general": 2,
+ 	        "concubine": 2,
+            "duke": 2,
             "baron": 2,
-            "duke": 1,
-            "concubine": 1,
-            "king": 1,
-            "prince": 1
-        }
-    },
+            "queen": 1,
+            "dowager":1,
+	        "king":1,
+	        "dragonegg": 1,
+	        "doctor": 1
+        }   
+    },  
     "deck-1": {
         "shuffle": true,
         "items": {
-            "enunch": 3,
+            "enunch": 2,
+            "guard": 1,
             "maid": 2,
             "assassin": 1,
-            "farmer-female": 1,
-            "general": 2,
+            "general": 1,
             "baron": 2,
             "duke": 1,
             "concubine": 1,
-            "queen": 1,
-            "dowager": 1
-        }
-    }
+	        "dragonegg":1,
+            "dowager": 1,
+            "prince":1,
+ 	        "servant":1
+        }   
+    }   
 }
