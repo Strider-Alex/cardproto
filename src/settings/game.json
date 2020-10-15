@@ -1,50 +1,18 @@
 {
-    "name": "ImperialStorm",
+    "name": "PokerGame",
     "player": 2,
     "fields": {
-        "scene1": {
-            "owner": "game",
-            "access": "public",
-            "counter": "0",
-            "text": "太和殿 场景 权300 【激】激活卡牌发动一次夺权。【结】权位更高的一方获得80点权位。",
-            "css": "field-3"
-        },
-        "scene2": {
-            "owner": "game",
-            "access": "public",
-            "counter": "0",
-            "text": "后宫 场景 权200【被】场景中的非男性卡牌权位+20。【激】获得20点权位。【结】权位更高的一方获得40点权位。",
-            "css": "field-3"
-        },
-        "scene3": {
-            "owner": "game",
-            "access": "public",
-            "counter": "0",
-            "text": "朝堂 场景 权200【被】场景中的男性卡牌权位+20。【激】查看对手的手牌。【结】权位更高的一方获得40点权位。",
-            "css": "field-3"
-        },
-        "scene4": {
-            "owner": "game",
-            "access": "public",
-            "counter": "0",
-            "text": "边塞 场景 权250【被】场景中的武将卡牌权位+20。【激】弃置对手一张手牌。【结】权位更高的一方获得60点权位。",
-            "css": "field-3-s"
-        },
         "deck": {
-            "owner": "player",
-            "access": "none",
-            "counter": "0",
-            "css": "field-1"
+            "owner": "game",
+            "access": "none"
         },
         "hand": {
             "owner": "player",
-            "access": "private",
-            "css": "field-2"
+            "access": "private"
         },
-        "graveyard": {
-            "owner": "player",
-            "access": "public",
-            "css": "field-4"
+        "discarded": {
+            "owner": "game",
+            "access": "public"
         }
     }
 }

@@ -36,7 +36,6 @@ class App extends React.Component {
               {`Player ${idx}`}
             </button>)
           }
-          <DeckBuilder/>
         </div>
       );
     }

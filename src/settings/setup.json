@@ -1,34 +1,23 @@
 {
-    "deck-0": {
+    "deck": {
         "shuffle": true,
         "items": {                                                                                                                                                                                          
-            "enunch": 2,
-            "maid": 2,
- 	        "concubine": 2,
-            "duke": 2,
-            "baron": 2,
-            "queen": 1,
-            "dowager":1,
-	        "king":1,
-	        "dragonegg": 1,
-	        "doctor": 1
+            "clubs_a": 1,
+            "clubs_j": 1,
+            "clubs_q": 1,
+            "clubs_k": 1,
+            "diamonds_a": 1,
+            "diamonds_j": 1,
+            "diamonds_q": 1,
+            "diamonds_k": 1,
+            "hearts_a": 1,
+            "hearts_j": 1,
+            "hearts_q": 1,
+            "hearts_k": 1,
+            "spades_a": 1,
+            "spades_j": 1,
+            "spades_q": 1,
+            "spades_k": 1
         }   
-    },  
-    "deck-1": {
-        "shuffle": true,
-        "items": {
-            "enunch": 2,
-            "guard": 1,
-            "maid": 2,
-            "assassin": 1,
-            "general": 1,
-            "baron": 2,
-            "duke": 1,
-            "concubine": 1,
-	        "dragonegg":1,
-            "dowager": 1,
-            "prince":1,
- 	        "servant":1
-        }   
-    }   
+    }
 }
