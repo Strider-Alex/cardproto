@@ -44,15 +44,10 @@ Currently, cardproto provides editable text fields associated on cards as a solu
 
 `node -r esm src/server.js`
 
-#### Update Your Game
-Card information: `src/settings/card.json`
+Open your favorite browser and visit localhost:3000
 
-Game information: `src/settings/game.json`
 
-Deck path: `src/settings/setup.json`
-
-`pm2 restart server`
-### Production
+### Production (pm2)
 #### Setup
 `npm install`
 
@@ -72,10 +67,12 @@ Later, you can use
 `pm2 start server`
 
 #### Update Deck and Card Information
-Deck path: `src/settings/setup.json`
-
 Card information: `src/settings/card.json`
 
-After update these files, run
+Game information: `src/settings/game.json`
+
+Deck path: `src/settings/setup.json`
+
+After update the setting files, run
 
 `pm2 restart server`
