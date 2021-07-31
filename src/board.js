@@ -22,11 +22,20 @@ class Board extends React.Component {
   };
 
   endTurn(e) {
+    this.props.moves.endTurn();
     this.props.events.endTurn();
   }
 
   reset(e) {
     this.props.moves.resetGame();
+  }
+
+  throwDice0(e) {
+      this.props.moves.throwDice0();
+  }
+
+  throwDice1(e) {
+      this.props.moves.throwDice1();
   }
 
   render() {
@@ -42,8 +51,12 @@ class Board extends React.Component {
 
     return (
       <div>
-        <button onClick={(e)=>this.reset(e)}>Reset</button>
-        <button onClick={(e)=>this.endTurn(e)}>End Turn</button>
+        <button onClick={(e) => this.reset(e)}>Reset</button>
+        <button onClick={(e) => this.endTurn(e)}>End Turn ({this.props.G.gameTurn})</button>
+        <input class="dice_input_textbox" type="text" size="5" value={this.props.G.dice0Value} />
+        <button onClick={(e) => this.throwDice0(e)}>Dice 0</button>
+        <input class="dice_input_textbox" type="text" size="5" value={this.props.G.dice1Value} />
+        <button onClick={(e) => this.throwDice1(e)}>Dice 1</button>
         <BoardFields moves={this.props.moves} G={this.props.G} playerID={this.props.playerID}/>
         {winner}
       </div>

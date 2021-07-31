@@ -22,11 +22,29 @@
     margin: 10px
 }
 
-.field-3-s {
-    width: 250px;
+.field-3-m {
+    width: 240px;
     height: 400px;
     overflow: auto;
-    margin: 10px
+    float: left;
+    margin: 5px
+}
+
+.field-3-s {
+    width: 200px;
+    height: 550px;
+    overflow: auto;
+    float: left;
+    margin: 3px
+}
+
+.field-3-sq {
+    width: 140px;
+    height: 200px;
+    overflow: auto;
+    float: left;
+    margin: 0px;
+    margin-top: 178px;
 }
 
 .field-4 {

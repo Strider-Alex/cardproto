@@ -37,3 +37,13 @@
   td.active:hover {
     background: #eeffff;
   }
+
+.dice_input_textbox {
+    margin-left: 10px;
+    width: 50px;
+}
+
+.field_input_textbox {
+    margin-right: 5px;
+    width: 125px;
+}
