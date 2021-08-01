@@ -32,14 +32,14 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 const grid = 8;
 
-const getItemStyle = (isDragging, draggableStyle) => ({
+const getItemStyle = (isDragging, bgColor, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
     padding: grid * 2,
-    margin: `0 0 ${grid}px 0`,
+    margin: `0 0 ${grid/2}px 0`,
 
     // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
+    background: isDragging ? 'lightgreen' : bgColor,//'grey',
 
     // styles we need to apply on draggables
     ...draggableStyle
@@ -74,8 +74,14 @@ class BoardFields extends Component {
 
     accessable = (fieldKey) => {
         const field = this.props.G.fields[fieldKey];
-        return !(field.access === 'none' ||
+        return field.revealed || !(field.access === 'none' ||
             (field.owner === 'player' && field.access === 'private' && !fieldKey.includes(this.props.playerID)));
+    };
+
+    revealable = (fieldKey) => {
+        const field = this.props.G.fields[fieldKey];
+        return (field.revealable && field.owner === 'player' && field.access === 'private'
+            && fieldKey.includes(this.props.playerID));
     };
 
     selected = id => id === this.state.selected;
@@ -91,6 +97,10 @@ class BoardFields extends Component {
 
     onCounterChange = (e, fieldKey) => {
         this.props.moves.updateCounter(fieldKey, e.target.value);
+    }
+
+    onRevealField = (e, fieldKey) => {
+        this.props.moves.revealField(fieldKey, e.target.checked);
     }
 
     onDragEnd = result => {
@@ -131,21 +141,29 @@ class BoardFields extends Component {
                             {(provided, snapshot) => (
                                 <div
                                     ref={provided.innerRef}
-                                    className="field-3"
+                                    className={('css' in this.props.G.fields[fieldKey]) ?
+                                        this.props.G.fields[fieldKey]['css'] : "field-3"}
                                     style={getListStyle(snapshot.isDraggingOver, fieldKey)}>
                                     <p>{fieldKey}</p>
-                                    {('text' in this.props.G.fields[fieldKey]) ? 
-                                        this.props.G.fields[fieldKey]['text']:
+                                    {('text' in this.props.G.fields[fieldKey]) ?
+                                        this.props.G.fields[fieldKey]['text'] :
                                         null}
-                                    {('counter' in this.props.G.fields[fieldKey]) ? 
+                                    {('counter' in this.props.G.fields[fieldKey]) ?
                                         <input
-                                        type="text"
-                                        onChange={(e)=>this.onCounterChange(e, fieldKey)}
-                                        value={this.props.G.fields[fieldKey].counter}
-                                       />:
+                                            type="text"
+                                            class="field_input_textbox"
+                                            onChange={(e) => this.onCounterChange(e, fieldKey)}
+                                            value={this.props.G.fields[fieldKey].counter}
+                                        /> :
                                         null}
                                     <button onClick={(e) => this.shuffleItems(e, fieldKey)}>Shuffle!</button>
-                                    {this.props.G.fields[fieldKey].items.map((item, index) => (
+                                    {(this.revealable(fieldKey)) ?
+                                        <>
+                                        <label id="text"> Reveal Cards</label>
+                                        <input type="checkbox" onClick={(e) => this.onRevealField(e, fieldKey)} checked={(this.props.G.fields[fieldKey].revealed)} />
+                                        </>
+                                        : null}
+                                    {this.props.G.fields[fieldKey].items.map((item, index) => (!item)? "" : (
                                         <Draggable
                                             key={item.id}
                                             draggableId={item.id}
@@ -157,9 +175,10 @@ class BoardFields extends Component {
                                                     {...provided.dragHandleProps}
                                                     style={getItemStyle(
                                                         snapshot.isDragging,
+                                                        ('card-color' in this.props.G.fields[fieldKey]) ? this.props.G.fields[fieldKey]['card-color'] : 'grey',
                                                         provided.draggableProps.style
                                                     )}>
-                                                    <p onClick={(e)=>this.onClick(e, item.id)}>{(this.accessable(fieldKey)) ? cardInfo[item.card].name : '???'}</p>
+                                                    <p onClick={(e) => this.onClick(e, item.id)}>{(this.accessable(fieldKey)) ? cardInfo[item.card].name : '???'}</p>
                                                     {(this.accessable(fieldKey) && this.selected(item.id)) ? <span>{cardInfo[item.card].text}</span> : null}
                                                 </div>
                                             )}
@@ -174,6 +193,7 @@ class BoardFields extends Component {
             </DragDropContext>
         );
     }
+
 }
 
 export default BoardFields;

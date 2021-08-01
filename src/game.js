@@ -30,7 +30,10 @@ function newKey(key, idx, n) {
 
 function reset() {
     let G = {
-        fields: {}
+        fields: {},
+        gameTurn: 1,
+        dice0Value: "2-12",
+        dice1Value: "2-12"
     };
     const fields = gameRule.fields;
     let counter = 0;
@@ -41,6 +44,7 @@ function reset() {
             const k = newKey(fieldKey, idx, n);
             G.fields[k] = {...fields[fieldKey]}; // deep copy is needed here
             G.fields[k].items = [];
+            G.fields[k].revealed = false;
             // setup for each instance
             if (k in setup) {
                 for(let card in setup[k].items) {
@@ -75,8 +79,20 @@ const Game = {
         updateCounter(G, ctx, fieldKey, s) {
             G.fields[fieldKey].counter = s;
         },
+        revealField(G, ctx, fieldKey, isChecked) {
+            G.fields[fieldKey].revealed = isChecked;
+        },
         resetGame(G, ctx) {
             Object.assign(G, reset());
+        },
+        endTurn(G, ctx) {
+            G.gameTurn = G.gameTurn + 1;
+        },
+        throwDice0(G, ctx) {
+            G.dice0Value = Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + 2;//Math.floor(Math.random() * 12) + 1;
+        },
+        throwDice1(G, ctx) {
+            G.dice1Value = Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + 2;//Math.floor(Math.random() * 12) + 1;
         }
     },
 
