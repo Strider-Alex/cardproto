@@ -110,24 +110,9 @@ class BoardFields extends Component {
         if (!destination) {
             return;
         }
-
-        if (source.droppableId === destination.droppableId) {
-            const items = reorder(
-                this.getList(source.droppableId),
-                source.index,
-                destination.index
-            );
-            this.props.moves.updateField(source.droppableId, items)
-        } else {
-            const result = move(
-                this.getList(source.droppableId),
-                this.getList(destination.droppableId),
-                source,
-                destination
-            );
-            this.props.moves.updateField(source.droppableId, result[source.droppableId])
-            this.props.moves.updateField(destination.droppableId, result[destination.droppableId])
-        }
+        const sourceClone = Array.from(this.getList(source.droppableId));
+        this.props.moves.updateCardField(source.droppableId, sourceClone[source.index].id,
+            destination.droppableId, destination.index);
     };
 
     // Normally you would want to split things out into separate components.

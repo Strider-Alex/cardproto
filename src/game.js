@@ -70,8 +70,23 @@ const Game = {
     setup: reset,
 
     moves: {
-        updateField(G, ctx, field, items) {
-            G.fields[field].items = items;
+        updateCardField(G, ctx, fromFieldId, cardId, targetFieldId, targetFieldIndex) {
+            const sourceClone = Array.from(G.fields[fromFieldId].items);
+            const targetClone = fromFieldId == targetFieldId ? sourceClone : Array.from(G.fields[targetFieldId].items);
+            let idx = 0;
+            for (let idx = 0; idx < sourceClone.length; idx++) {
+                if (sourceClone[idx].id == cardId)
+                {
+                    const [removed] = sourceClone.splice(idx, 1); // remove item from source field
+                    targetClone.splice(targetFieldIndex, 0, removed); // Add item to new field
+                    break;
+                }
+            }
+
+            G.fields[fromFieldId].items = sourceClone;
+            if (fromFieldId != targetFieldId) {
+                G.fields[targetFieldId].items = targetClone;
+            }
         },
         shuffleItems(G, ctx, fieldKey) {
             shuffle(G.fields[fieldKey].items);
